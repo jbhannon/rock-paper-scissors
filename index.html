@@ -13,26 +13,48 @@
                 'Rock' : (randInt === 1) ? 
                 'Paper' : 'Scissors';
         }
+        function playerPlay() {
+            return prompt('Rock, Paper, or Scissors?');
+        }
         function playRound(playerSelect, compSelect) {
             playerSelect = capitalFirstLetter(playerSelect);
             compSelect = capitalFirstLetter(compSelect);
             switch (true) {
                 case (playerSelect == compSelect):
-                    return `Tie! \n ${playerSelect} ties ${compSelect}`;
+                    return `Tie!\n${playerSelect} ties ${compSelect}`;
                 case (playerSelect === 'Rock' && compSelect === 'Paper'):
                 case (playerSelect === 'Paper' && compSelect === 'Scissors'):
                 case (playerSelect === 'Scissors' && compSelect === 'Rock'):
-                    return `You lose! \n ${playerSelect} loses to ${compSelect}`;
+                    return `You lose!\n${playerSelect} loses to ${compSelect}`;
                 case (playerSelect === 'Rock' && compSelect === 'Scissors'):
                 case (playerSelect === 'Paper' && compSelect === 'Rock'):
                 case (playerSelect === 'Scissors' && compSelect === 'Paper'):
-                    return `You win! \n ${playerSelect} beats ${compSelect}`;
+                    return `You win!\n${playerSelect} beats ${compSelect}`;
                 default:
                     return 'Error: input not recognized';
             }
         }
         function capitalFirstLetter(str) {
             return str[0].toUpperCase()+str.slice(1).toLowerCase();
+        }
+        function game(){
+            let playerScore = 0
+            let computerScore = 0;
+            console.log('Best of Five!');
+            while (true) {
+                const result = playRound(playerPlay(), computerPlay());
+                console.log(result);
+                result.includes('win') ? playerScore += 1 : 
+                result.includes('lose') ? computerScore += 1 : '';
+                console.log(`${playerScore} - ${computerScore}`)
+                if (playerScore === 3) {
+                    console.log('That\'s 3! You win the game!');
+                    break;
+                } else if (computerScore === 3) {
+                    console.log('That\'s 3! You lose the game!');
+                    break;
+                }
+            }
         }
     </script>
 </body>
