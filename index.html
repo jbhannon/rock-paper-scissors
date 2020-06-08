@@ -6,15 +6,19 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <h1>Rock Paper Scissors</h1>
+    <div id="buttons">
+        <button type="button">Rock</button>
+        <button type="button">Paper</button>
+        <button type="button">Scissors</button>
+    </div>
+    <div id="results"></div>
     <script>
         function computerPlay() {
             const randInt = Math.floor(Math.random()*3);
             return (randInt === 0) ? 
                 'Rock' : (randInt === 1) ? 
                 'Paper' : 'Scissors';
-        }
-        function playerPlay() {
-            return prompt('Rock, Paper, or Scissors?');
         }
         function playRound(playerSelect, compSelect) {
             playerSelect = capitalFirstLetter(playerSelect);
@@ -37,25 +41,51 @@
         function capitalFirstLetter(str) {
             return str[0].toUpperCase()+str.slice(1).toLowerCase();
         }
-        function game(){
-            let playerScore = 0
-            let computerScore = 0;
-            console.log('Best of Five!');
-            while (true) {
-                const result = playRound(playerPlay(), computerPlay());
-                console.log(result);
-                result.includes('win') ? playerScore += 1 : 
-                result.includes('lose') ? computerScore += 1 : '';
-                console.log(`${playerScore} - ${computerScore}`)
-                if (playerScore === 3) {
-                    console.log('That\'s 3! You win the game!');
-                    break;
-                } else if (computerScore === 3) {
-                    console.log('That\'s 3! You lose the game!');
-                    break;
-                }
+        function Game (str) {
+            const results = document.querySelector('#results');
+            const buttons = document.querySelector('#buttons');
+            const win = document.createElement('h2');
+            win.innerHTML = `That's 3! You win the game!<br/>refresh to restart`;
+            const lose = document.createElement('h2');
+            lose.innerHTML = `That's 3! You lose the game!<br/>refresh to restart`;
+
+            str.includes('win') ? playerScore += 1 : 
+            str.includes('lose') ? computerScore += 1 : '';
+            
+            const resultPara = document.createElement('p');
+            resultPara.textContent = str;
+
+            const scorePara = document.createElement('p');
+            scorePara.textContent = `${playerScore} - ${computerScore}`;
+
+            if (playerScore >= 3) {
+                buttons.innerHTML = '';
+                results.innerHTML = resultPara.outerHTML + scorePara.outerHTML + win.outerHTML;
+                return;
+            } else if (computerScore >= 3) {
+                buttons.innerHTML = '';
+                results.innerHTML = resultPara.outerHTML + scorePara.outerHTML + lose.outerHTML;
+                return;
             }
+
+            results.innerHTML = resultPara.outerHTML + scorePara.outerHTML;
         }
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {Game(playRound(button.textContent, computerPlay()))});
+        })
+        let playerScore = 0;
+        let computerScore = 0;
+        // function game(){
+
+        //     console.log('Best of Five!');
+        //     while (true) {
+        //         const result = playRound(playerPlay(), computerPlay());
+        //         console.log(result);
+        //         console.log(`${playerScore} - ${computerScore}`)
+        //         
+        //     }
+        // }
     </script>
 </body>
 </html>
